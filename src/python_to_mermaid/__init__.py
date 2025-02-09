@@ -83,7 +83,10 @@ class MermaidDiagram:
             label: Optional label for the node. If not provided, will use the node ID as label.
         """
         if isinstance(node, str):
-            label = label if label is not None else node
+            if label is None:
+                # Only use node as label if it doesn't contain special characters
+                if not any(c in node for c in "[]\"'\\"):
+                    label = node
             node = MermaidNode(id=node, label=label, shape=shape)
 
         if node.shape:
