@@ -1,8 +1,16 @@
 # python-to-mermaid
 
-Generate mermaid diagrams from python code.
+Generate [Mermaid diagrams](https://mermaid.js.org/) using Python code.
 
 ## Installation
+
+### UV
+
+```bash
+uv add python-to-mermaid
+```
+
+### Pip
 
 ```bash
 pip install python-to-mermaid
@@ -58,4 +66,10 @@ pytest tests/ -v
 
 ```bash
 chmod +x publish.sh
+```
+
+### Generate Examples
+
+```bash
+python examples
 ```
