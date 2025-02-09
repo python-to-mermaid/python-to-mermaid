@@ -11,6 +11,9 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
 ]
+dependencies = [
+    "pytest>=7.4.4",
+]
 description = "Generate Mermaid diagrams using Python code"
 name = "python-to-mermaid"
 readme = "README.md"
