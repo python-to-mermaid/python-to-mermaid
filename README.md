@@ -27,3 +27,13 @@ uv sync
 ```bash
 pytest tests/ -v
 ```
+
+## Publishing
+
+```bash
+./publish.sh
+```
+
+```bash
+chmod +x publish.sh
+```
