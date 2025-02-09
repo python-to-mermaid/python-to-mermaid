@@ -17,20 +17,22 @@ result = str(diagram)
 
 ```mermaid
 flowchart TD
-    A
-    B[With Text]
+    A["A"]
+    B[With Text]["B[With Text]"]
     C["Multi-line
-Text"]
+Text"]["C["Multi-line
+Text"]"]
     A --> B
     B --> C
 ```
 
 ```bash
 flowchart TD
-    A
-    B[With Text]
+    A["A"]
+    B[With Text]["B[With Text]"]
     C["Multi-line
-Text"]
+Text"]["C["Multi-line
+Text"]"]
     A --> B
     B --> C
 ```

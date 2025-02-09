@@ -5,7 +5,7 @@ python-to-mermaid
 A Python package that allows users to generate Mermaid diagrams using Python code.
 """
 
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, Tuple
 from dataclasses import dataclass
 import importlib.metadata
 
@@ -18,7 +18,7 @@ class MermaidNode:
 
     id: str
     label: Optional[str] = None
-    shape: Optional[str] = None
+    shape: Optional[Union[str, Tuple[str, str]]] = None
     style: Optional[Dict[str, str]] = None
 
 
@@ -35,20 +35,69 @@ class MermaidEdge:
 class MermaidDiagram:
     """Main class for creating Mermaid diagrams."""
 
+    # Map friendly shape names to Mermaid syntax
+    SHAPE_MAP = {
+        # Basic shapes
+        "default": ["", ""],
+        "round": ["(", ")"],
+        "stadium": ["([", "])"],
+        "subroutine": ["[[", "]]"],
+        "cylindrical": ["[(", ")]"],
+        "circle": ["((", "))"],
+        "asymmetric": [">", "]"],
+        "rhombus": ["{", "}"],
+        "hexagon": ["{{", "}}"],
+        "parallelogram": ["[/", "/]"],
+        "parallelogram_alt": ["[\\", "\\]"],
+        "trapezoid": ["[/", "\\]"],
+        "trapezoid_alt": ["[\\", "/]"],
+        "double_circle": ["(((", ")))"],
+        # Alternative names for shapes
+        "rounded": ["(", ")"],
+        "diamond": ["{", "}"],
+        "database": ["[(", ")]"],
+    }
+
     def __init__(self, diagram_type: str = "flowchart"):
         self.diagram_type = diagram_type
         self.nodes: List[MermaidNode] = []
         self.edges: List[MermaidEdge] = []
         self.direction = "TD"  # Top to Down by default
+        self.handled_shapes_mermaid_syntax = [
+            "".join(self.SHAPE_MAP[shape]) for shape in self.SHAPE_MAP
+        ]
 
-    def add_node(self, node: Union[str, MermaidNode]) -> "MermaidDiagram":
+    def add_node(
+        self,
+        node: Union[str, MermaidNode],
+        shape: Optional[Union[str, Tuple[str, str]]] = None,
+        label: Optional[str] = None,
+    ) -> "MermaidDiagram":
         """Add a node to the diagram.
 
         Args:
             node: Either a string ID for a simple node, or a MermaidNode instance
+            shape: Optional shape for the node. Can be either:
+                  - A friendly name like 'circle', 'diamond'
+                  - A tuple of (start, end) characters like ('((', '))')
+            label: Optional label for the node. If not provided, will use the node ID as label.
         """
         if isinstance(node, str):
-            node = MermaidNode(id=node)
+            label = label if label is not None else node
+            node = MermaidNode(id=node, label=label, shape=shape)
+
+        if node.shape:
+            if isinstance(node.shape, tuple):
+                start, end = node.shape
+            else:
+                if node.shape not in self.SHAPE_MAP:
+                    raise ValueError(f"Invalid shape: {node.shape}")
+                start, end = self.SHAPE_MAP[node.shape]
+
+            node_str = f"{start}{node.label or ''}{end}"
+            if node_str not in self.handled_shapes_mermaid_syntax:
+                self.handled_shapes_mermaid_syntax.append(node_str)
+
         self.nodes.append(node)
         return self
 
@@ -91,10 +140,17 @@ class MermaidDiagram:
         # Add nodes
         for node in self.nodes:
             node_str = f"    {node.id}"
-            if node.label:
+            if node.shape:
+                if isinstance(node.shape, tuple):
+                    start, end = node.shape
+                else:
+                    start, end = self.SHAPE_MAP[node.shape]
+                node_str += f"{start}{node.label or ''}{end}"
+            elif node.label:
                 node_str += f'["{node.label}"]'
+
             if node.style:
-                style_str = ", ".join(f"{k}:{v}" for k, v in node.style.items())
+                style_str = ",".join(f"{k}:{v}" for k, v in node.style.items())
                 node_str += f" style {node.id} {style_str}"
             lines.append(node_str)
 
