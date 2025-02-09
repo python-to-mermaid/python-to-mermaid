@@ -32,6 +32,12 @@ flowchart TD
     A --> B
 ```
 
+## Examples
+
+See the [examples](examples) directory for more examples.
+
+- [Node with Text](examples/node_with_text.md)
+
 ## Development
 
 ```bash
