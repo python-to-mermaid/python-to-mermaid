@@ -2,6 +2,12 @@
 
 Generate mermaid diagrams from python code.
 
+## Installation
+
+```bash
+pip install python-to-mermaid
+```
+
 ## Usage
 
 ```python
@@ -24,12 +30,6 @@ flowchart TD
     A
     B
     A --> B
-```
-
-## Installation
-
-```bash
-pip install python-to-mermaid
 ```
 
 ## Development
