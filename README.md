@@ -45,6 +45,7 @@ flowchart TD
 See the [examples](examples) directory for more examples.
 
 - [Node with Text](examples/node_with_text.md)
+- [Node Shapes](examples/node_shapes.md)
 
 ## Development
 
