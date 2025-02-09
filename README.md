@@ -1,6 +1,6 @@
-# python-to-mermaid
+# Python-to-Mermaid: Generate [Mermaid Diagrams](https://mermaid.js.org/) Programmatically with Python 🐍✨
 
-Generate [Mermaid diagrams](https://mermaid.js.org/) using Python code.
+A Python package that generates Mermaid.js diagrams using Python. Creates flowcharts, class diagrams, and state machines directly from your code. Useful for documenting APIs, visualizing codebases, and generating technical documentation.
 
 ## Installation
 
@@ -46,6 +46,13 @@ See the [examples](examples) directory for more examples.
 
 - [Node with Text](examples/node_with_text.md)
 - [Node Shapes](examples/node_shapes.md)
+
+## Use Cases
+
+- Technical SEO: Visualize website crawls or redirect maps for audits.
+- Code Documentation: Auto-update UML diagrams when code changes.
+- Education: Create interactive tutorials with executable diagrams.
+- Project Planning: Map user journeys and system architectures.
 
 ## Development
 

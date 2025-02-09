@@ -18,7 +18,7 @@ description = "Generate Mermaid diagrams using Python code"
 name = "python-to-mermaid"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "0.5.0"
+version = "0.6.0"
 
 [project.urls]
 "Bug Tracker" = "https://github.com/python-to-mermaid/python-to-mermaid/issues"
