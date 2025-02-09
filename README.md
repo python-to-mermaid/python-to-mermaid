@@ -1,3 +1,5 @@
+# python-to-mermaid
+
 Generate mermaid diagrams from python code.
 
 ```python

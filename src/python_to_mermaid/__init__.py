@@ -5,7 +5,7 @@ python-to-mermaid
 A Python package that allows users to generate Mermaid diagrams using Python code.
 """
 
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
 from dataclasses import dataclass
 
 __version__ = "0.1.0"
