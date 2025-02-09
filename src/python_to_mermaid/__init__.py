@@ -5,10 +5,11 @@ python-to-mermaid
 A Python package that allows users to generate Mermaid diagrams using Python code.
 """
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 from dataclasses import dataclass
+import importlib.metadata
 
-__version__ = "0.1.0"
+__version__ = importlib.metadata.version("python-to-mermaid")
 
 
 @dataclass
@@ -28,7 +29,7 @@ class MermaidEdge:
     source: str
     target: str
     label: Optional[str] = None
-    style: Optional[str] = "---"
+    style: Optional[str] = "-->"
 
 
 class MermaidDiagram:
@@ -40,13 +41,38 @@ class MermaidDiagram:
         self.edges: List[MermaidEdge] = []
         self.direction = "TD"  # Top to Down by default
 
-    def add_node(self, node: MermaidNode) -> "MermaidDiagram":
-        """Add a node to the diagram."""
+    def add_node(self, node: Union[str, MermaidNode]) -> "MermaidDiagram":
+        """Add a node to the diagram.
+
+        Args:
+            node: Either a string ID for a simple node, or a MermaidNode instance
+        """
+        if isinstance(node, str):
+            node = MermaidNode(id=node)
         self.nodes.append(node)
         return self
 
-    def add_edge(self, edge: MermaidEdge) -> "MermaidDiagram":
-        """Add an edge to the diagram."""
+    def add_edge(
+        self,
+        source: Union[str, MermaidEdge],
+        target: Optional[str] = None,
+        label: Optional[str] = None,
+        style: Optional[str] = "-->",
+    ) -> "MermaidDiagram":
+        """Add an edge to the diagram.
+
+        Args:
+            source: Either a string source node ID or a MermaidEdge instance
+            target: Target node ID if source is a string
+            label: Optional edge label if source is a string
+            style: Optional edge style if source is a string
+        """
+        if isinstance(source, str):
+            if target is None:
+                raise ValueError("target must be provided when source is a string")
+            edge = MermaidEdge(source=source, target=target, label=label, style=style)
+        else:
+            edge = source
         self.edges.append(edge)
         return self
 
@@ -80,6 +106,9 @@ class MermaidDiagram:
             lines.append(edge_str)
 
         return "\n".join(lines)
+
+    def __str__(self) -> str:
+        return self.to_mermaid()
 
 
 # Convenience functions

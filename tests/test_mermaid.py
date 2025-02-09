@@ -36,7 +36,7 @@ def test_create_edge():
     assert edge.source == "A"
     assert edge.target == "B"
     assert edge.label is None
-    assert edge.style == "---"
+    assert edge.style == "-->"
 
     # Edge with label
     edge = MermaidEdge("A", "B", label="process")
@@ -120,7 +120,7 @@ class TestMermaidDiagram:
         diagram.add_edge(MermaidEdge("A", "B", "Next"))
 
         expected = (
-            "flowchart LR\n" '    A["Start"]\n' '    B["End"]\n' "    A --- B|Next|"
+            "flowchart LR\n" '    A["Start"]\n' '    B["End"]\n' "    A --> B|Next|"
         )
         assert diagram.to_mermaid() == expected
 
@@ -170,4 +170,4 @@ def test_practical_example():
     assert "flowchart LR" in mermaid_output
     assert 'start["Start"]' in mermaid_output
     assert "style start fill:#green" in mermaid_output
-    assert "start --- process|Begin|" in mermaid_output
+    assert "start --> process|Begin|" in mermaid_output
